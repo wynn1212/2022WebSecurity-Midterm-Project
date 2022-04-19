@@ -1,0 +1,39 @@
+version: "2"
+services:
+    web:
+        build: ./web-image
+        restart: always
+        ports: 
+            - 127.0.0.1:8080:80
+        volumes: 
+            - ./www:/var/www/html
+            - ./userdata:/userdata
+            - ./web-php-config/zz_production_config.ini:/usr/local/etc/php/conf.d/zz_production_config.ini
+        links:
+            - db
+    db:
+        image: mysql:5.7
+        restart: always
+        environment:
+            MYSQL_DATABASE: ?
+            MYSQL_USER: ?
+            MYSQL_PASSWORD: ? 
+            MYSQL_ROOT_PASSWORD: ?
+        volumes:
+            - ./db:/docker-entrypoint-initdb.d
+        networks:
+            - default
+        hostname: wynn1212.websec.mooo.com
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        restart: always
+        links: 
+            - db:db
+        ports:
+            - 127.0.0.1:8082:80
+        hostname: wynn1212.websec.mooo.com
+        environment:
+            MYSQL_USER: ?
+            MYSQL_PASSWORD: ?
+            MYSQL_ROOT_PASSWORD: ?
+            PMA_ABSOLUTE_URI: https://wynn1212.websec.mooo.com/www-0ade2543_4cc355-T0-phpmy4dm1n/
