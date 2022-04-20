@@ -17,6 +17,8 @@
   $result = queryMysql("SELECT * FROM config WHERE name='title'");
 
   if(isset($_POST['settitle'])){
+    if($uid != 1)
+      die("<meta http-equiv=\"refresh\" content=\"0;url=profile.php?r=$randstr\">");
     $set_title = sanitizeString($_POST['settitle']);
     $set_title = preg_replace('/\s\s+/', ' ', $set_title);
     if ($result->rowCount()){
