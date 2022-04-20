@@ -32,11 +32,11 @@
               die("<meta http-equiv=\"refresh\" content=\"0;url=\">");
             }
           }
-          if($post_attach)
-            echo "<form id='delete' method='post' action='post.php?id=$post_id'>
+          echo "<form id='delete' method='post' action='post.php?id=$post_id'>
                 <input type='hidden' name='action' value='delete' />
                 </form>";
-          echo "<form id='delete_attach' method='post' action='post.php?id=$post_id'>
+          if($post_attach)
+            echo "<form id='delete_attach' method='post' action='post.php?id=$post_id'>
                 <input type='hidden' name='action' value='delete_attach' />
                 </form>";
           echo "<form id='modify' method='post' action='newmsg.php'>
