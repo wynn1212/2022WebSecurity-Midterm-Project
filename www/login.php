@@ -1,5 +1,8 @@
 <?php
   require_once 'header.php';
+
+  if ($logger) dumpVar($_POST);
+
   $error = $user = $pass = "";
 
   if (isset($_POST['user'])){

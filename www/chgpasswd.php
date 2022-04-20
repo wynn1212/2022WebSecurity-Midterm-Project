@@ -1,6 +1,8 @@
 <?php
   require_once 'header.php';
 
+  if ($logger) dumpVar($_POST);
+
   if (!$loggedin) die("</div></body></html>");
 
   $error = $curpass = $newpass = $confpass = "";

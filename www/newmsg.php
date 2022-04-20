@@ -1,5 +1,8 @@
 <?php
   require_once 'header.php';
+  
+  if ($logger) dumpVar($_POST);
+  
   $error = "";
 
   if (!$loggedin) die("</div></body></html>");

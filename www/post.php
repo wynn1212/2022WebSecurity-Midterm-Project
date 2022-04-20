@@ -1,6 +1,8 @@
 <?php 
   require_once 'header.php';
   
+  if ($logger) dumpVar($_POST);
+
   if (!$loggedin) die("</div></body></html>");
   echo "<a data-role='button' data-inline='true' data-transition='slide' href='msgboard.php?r=$randstr' data-icon='back'>Go Back</a>";
 

@@ -2,6 +2,8 @@
     session_start();
     require_once 'functions.php';
 
+    if ($logger) dumpVar($_POST);
+
     if (isset($_SESSION['user']))
         $loggedin = TRUE;
     else 

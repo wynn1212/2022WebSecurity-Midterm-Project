@@ -1,4 +1,5 @@
 <?php 
+  $logger = TRUE;
   $host = 'db';    // SQL Hostname. Change as necessary
   $data = '?';   // SQL DB Name. Change as necessary
   $user = '?';   // DB Username. Change as necessary
@@ -172,5 +173,11 @@
 
     // Replacing the BBcodes with corresponding HTML tags
     return preg_replace($find,$replace,$text);
+  }
+
+  function dumpVar($dmp){
+    ob_start();
+    var_dump($dmp);
+    error_log(ob_get_clean());
   }
 ?>

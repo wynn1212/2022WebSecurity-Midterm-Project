@@ -17,13 +17,13 @@
   
   createTable('members',
               'uid INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-              user VARCHAR(1024),
-              pass VARCHAR(1024),
+              user VARCHAR(512),
+              pass VARCHAR(512),
               INDEX(user(6))');
 
   createTable('msgboard', 
               'id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-              auth VARCHAR(1024),
+              auth VARCHAR(512),
               time INT UNSIGNED,
               title VARCHAR(4096),
               message VARCHAR(4096),
@@ -32,8 +32,8 @@
   
   createTable('messages', 
               'id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-              auth VARCHAR(1024),
-              recip VARCHAR(16),
+              auth VARCHAR(512),
+              recip VARCHAR(512),
               pm CHAR(1),
               time INT UNSIGNED,
               message VARCHAR(4096),
@@ -42,13 +42,13 @@
 
   createTable('friends',
               'id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-              user VARCHAR(1024),
+              user VARCHAR(512),
               friend VARCHAR(1024),
               INDEX(user(6)),
               INDEX(friend(6))');
 
   createTable('profiles',
-              'user VARCHAR(1024) PRIMARY KEY,
+              'user VARCHAR(512) PRIMARY KEY,
               text VARCHAR(4096),
               image VARCHAR(4096),
               INDEX(user(6))');

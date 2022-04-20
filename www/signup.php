@@ -1,6 +1,8 @@
 <?php
   require_once 'header.php';
 
+  if ($logger) dumpVar($_POST);
+
 echo <<<_END
   <script>
     function checkUser(user)
