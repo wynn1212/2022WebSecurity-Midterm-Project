@@ -19,6 +19,7 @@
   }
 
   if (isset($_GET['add'])){
+    csrfValidate($_GET['token'], $_SESSION['token'], "members.php?r=$randstr");
     $add = sanitizeString($_GET['add']);
 
     $result = queryMysql("SELECT * FROM friends
@@ -26,10 +27,13 @@
     if (!$result->rowCount)
       queryMysql("INSERT INTO friends VALUES (NULL, '$add', '$user')");
   }elseif (isset($_GET['remove'])){
+    csrfValidate($_GET['token'], $_SESSION['token'], "members.php?r=$randstr");
     $remove = sanitizeString($_GET['remove']);
     queryMysql("DELETE FROM friends
       WHERE user='$remove' AND friend='$user'");
   }
+
+  $csrf_token = csrfGetToken();
 
   $result = queryMysql("SELECT user FROM members ORDER BY user");
   $num    = $result->rowCount();
@@ -55,9 +59,9 @@
                          $follow = "recip"; }
     
     if (!$t1) echo " [<a data-transition='slide'
-      href='members.php?add=" . $row['user'] . "&r=$randstr'>$follow</a>]";
+      href='members.php?add=" . $row['user'] . "&r=$randstr&token=$csrf_token'>$follow</a>]";
     else      echo " [<a data-transition='slide'
-      href='members.php?remove=" . $row['user'] . "&r=$randstr'>drop</a>]";
+      href='members.php?remove=" . $row['user'] . "&r=$randstr&token=$csrf_token'>drop</a>]";
   }
 
 ?>

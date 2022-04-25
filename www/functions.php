@@ -1,9 +1,9 @@
 <?php 
   $logger = TRUE;
-  $host = 'db';    // SQL Hostname. Change as necessary
+  $host = '?';   // SQL Hostname. Change as necessary
   $data = '?';   // SQL DB Name. Change as necessary
   $user = '?';   // DB Username. Change as necessary
-  $pass = '?';     // DB Password. Change as necessary
+  $pass = '?';   // DB Password. Change as necessary
   $chrs = 'utf8mb4';
   $attr = "mysql:host=$host;dbname=$data;charset=$chrs";
   $opts =
@@ -123,6 +123,24 @@
       imagedestroy($tmp);
       imagedestroy($src);
     }
+  }
+
+  function csrfGetToken(){
+    if (isset($_SESSION['user'])){
+      $_SESSION['token'] = md5(uniqid(mt_rand(), true));
+      return $_SESSION['token'];
+    }else
+      return NULL;
+  }
+  
+  function csrfValidate($post_token, $sess_token, $custom_url) {
+    $comp_token = sanitizeString($post_token);
+    $comp_token = preg_replace('/\s\s+/', ' ', $comp_token);
+    if(!$comp_token || $comp_token !== $sess_token)
+      if(isset($custom_url))
+        die("<meta http-equiv=\"refresh\" content=\"0;url=$custom_url\">");
+      else
+        die("<meta http-equiv=\"refresh\" content=\"0;url=index.php\">");
   }
 
   /** 

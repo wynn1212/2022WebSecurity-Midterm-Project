@@ -9,6 +9,7 @@
   else                      $view = $user;
 
   if (isset($_POST['text'])){
+    csrfValidate($_POST['token'], $_SESSION['token']);
     $text = sanitizeString($_POST['text']);
 
     if ($text != ""){
@@ -26,6 +27,14 @@
       $name2 = "$view's";
     }
 
+    if (isset($_GET['erase'])){
+      csrfValidate($_GET['token'], $_SESSION['token'], "messages.php?r=$randstr");
+      $erase = sanitizeString($_GET['erase']);
+      queryMysql("DELETE FROM messages WHERE id='$erase' AND recip='$user'");
+    }
+    
+    $csrf_token = csrfGetToken();
+
     echo "<h3>$name1 Messages</h3>";
     showProfile($view);
     
@@ -40,15 +49,11 @@
         </fieldset>
       <textarea name='text'></textarea>
       <input data-transition='slide' type='submit' value='Post Message'>
+      <input type="hidden" name="token" value="$csrf_token">
     </form><br>
 _END;
 
     date_default_timezone_set('UTC');
-
-    if (isset($_GET['erase'])){
-      $erase = sanitizeString($_GET['erase']);
-      queryMysql("DELETE FROM messages WHERE id='$erase' AND recip='$user'");
-    }
     
     $query  = "SELECT * FROM messages WHERE recip='$view' ORDER BY time DESC";
     $result = queryMysql($query);
@@ -68,7 +73,7 @@ _END;
 
         if ($row['recip'] == $user)
           echo "[<a href='messages.php?view=$view" .
-               "&erase=" . $row['id'] . "&r=$randstr'>erase</a>]";
+               "&erase=" . $row['id'] . "&r=$randstr&token=$csrf_token'>erase</a>]";
 
         echo "<br>";
       }

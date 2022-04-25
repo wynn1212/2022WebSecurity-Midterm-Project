@@ -18,6 +18,7 @@
         $post_attach = $row['attachment'];
         if($user == $post_user){
           if(isset($_POST['action'])){
+            csrfValidate($_POST['token'], $_SESSION['token']);
             if($_POST['action'] == 'delete'){
               echo("Deleting post...<br>");
               queryMysql("DELETE FROM msgboard WHERE id='$post_id'");
@@ -32,16 +33,22 @@
               die("<meta http-equiv=\"refresh\" content=\"0;url=\">");
             }
           }
+          
+          $csrf_token = csrfGetToken();
+          
           echo "<form id='delete' method='post' action='post.php?id=$post_id'>
-                <input type='hidden' name='action' value='delete' />
+                  <input type='hidden' name='action' value='delete' />
+                  <input type=\"hidden\" name=\"token\" value=\"$csrf_token\">
                 </form>";
           if($post_attach)
             echo "<form id='delete_attach' method='post' action='post.php?id=$post_id'>
-                <input type='hidden' name='action' value='delete_attach' />
-                </form>";
+                    <input type='hidden' name='action' value='delete_attach' />
+                    <input type=\"hidden\" name=\"token\" value=\"$csrf_token\">
+                  </form>";
           echo "<form id='modify' method='post' action='newmsg.php'>
-                <input type='hidden' name='action' value='modify' />
-                <input type='hidden' name='id' value='$post_id' />
+                  <input type='hidden' name='action' value='modify' />
+                  <input type='hidden' name='id' value='$post_id' />
+                  <input type=\"hidden\" name=\"token\" value=\"$csrf_token\">
                 </form>";
           echo "<a data-role='button' data-inline='true' data-transition='slide' 
                 onclick=\"document.getElementById('delete').submit();\" data-icon='delete'>Delete Post</a>";

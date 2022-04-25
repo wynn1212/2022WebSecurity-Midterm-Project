@@ -55,28 +55,29 @@ _END;
 
 echo <<<_END
       <form method='post' action='signup.php?r=$randstr'>$error
-      <div data-role='fieldcontain'>
-        <label></label>
-        Please enter your details to sign up
-      </div>
-      <div data-role='fieldcontain'>
-        <label>Username</label>
-        <input type='text' maxlength='1024' name='user' value='$user'
-          onBlur='checkUser(this)'>
-        <label></label><div id='used'>&nbsp;</div>
-      </div>
-      <div data-role='fieldcontain'>
-        <label>Password</label>
-        <input type='password' maxlength='1024' name='pass' value=''>
-      </div>
-      <div data-role='fieldcontain'>
-        <label>Confirm Password</label>
-        <input type='password' maxlength='1024' name='confpass' value=''>
-      </div>
-      <div data-role='fieldcontain'>
-        <label></label>
-        <input data-transition='slide' type='submit' value='Sign Up'>
-      </div>
+        <div data-role='fieldcontain'>
+          <label></label>
+          Please enter your details to sign up
+        </div>
+        <div data-role='fieldcontain'>
+          <label>Username</label>
+          <input type='text' maxlength='1024' name='user' value='$user'
+            onBlur='checkUser(this)'>
+          <label></label><div id='used'>&nbsp;</div>
+        </div>
+        <div data-role='fieldcontain'>
+          <label>Password</label>
+          <input type='password' maxlength='1024' name='pass' value=''>
+        </div>
+        <div data-role='fieldcontain'>
+          <label>Confirm Password</label>
+          <input type='password' maxlength='1024' name='confpass' value=''>
+        </div>
+        <div data-role='fieldcontain'>
+          <label></label>
+          <input data-transition='slide' type='submit' value='Sign Up'>
+        </div>
+      </form>
     </div>
   </body>
 </html>

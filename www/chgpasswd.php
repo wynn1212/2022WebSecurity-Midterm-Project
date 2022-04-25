@@ -8,6 +8,7 @@
   $error = $curpass = $newpass = $confpass = "";
 
   if (isset($_POST['curpass'])){
+    csrfValidate($_POST['token'], $_SESSION['token']);
     $result = queryMySQL("SELECT pass FROM members WHERE user='$user'");
     $row = $result->fetch();
 
@@ -28,8 +29,10 @@
     }
   }
 
+  $csrf_token = csrfGetToken();
+
 echo <<<_END
-        <form method='post' action='chgpasswd.php?r=$randstr'>$error
+      <form method='post' action='chgpasswd.php?r=$randstr'>$error
         <div data-role='fieldcontain'>
             <label></label>
             Please enter your details to change password
@@ -50,10 +53,12 @@ echo <<<_END
         </div>
         <div data-role='fieldcontain'>
             <label></label>
-            <input data-transition='slide' type='submit' value='Sign Up'>
+            <input data-transition='slide' type='submit' value='Change Password'>
         </div>
-        </div>
-    </body>
+        <input type="hidden" name="token" value="$csrf_token">
+      </form>
+    </div>
+  </body>
 </html>
 _END;
 ?>

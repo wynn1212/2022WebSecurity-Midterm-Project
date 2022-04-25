@@ -17,6 +17,7 @@
   $result = queryMysql("SELECT * FROM config WHERE name='title'");
 
   if(isset($_POST['settitle'])){
+    csrfValidate($_POST['token'], $_SESSION['token']);
     if($uid != 1)
       die("<meta http-equiv=\"refresh\" content=\"0;url=profile.php?r=$randstr\">");
     $set_title = sanitizeString($_POST['settitle']);
@@ -32,6 +33,7 @@
   $result = queryMysql("SELECT * FROM profiles WHERE user='$user'");
   
   if (isset($_POST['text'])){
+    csrfValidate($_POST['token'], $_SESSION['token']);
     $text = sanitizeString($_POST['text']);
     #$text = preg_replace('/\s\s+/', ' ', $text);
 
@@ -55,6 +57,7 @@
 
   $result = queryMysql("SELECT * FROM profiles WHERE user='$user'");
   if (isset($_FILES['image']['name']) && $_FILES['image']['tmp_name'] != ""){
+    csrfValidate($_POST['token'], $_SESSION['token']);
     $rand_image_prefix = substr(md5(rand()), 0, 7);
     $user_image = "$rand_image_prefix-$user";
     $saveto = stripslashes(preg_replace('/\\\\+/','',"userdata/images/$user_image.jpg"));
@@ -76,6 +79,7 @@
 
   $result = queryMysql("SELECT * FROM profiles WHERE user='$user'");
   if(isset($_POST['image_url']) && $_POST['image_url'] != ''){
+    csrfValidate($_POST['token'], $_SESSION['token']);
     $rand_image_prefix = substr(md5(rand()), 0, 7);
     $user_image = "$rand_image_prefix-$user";
     $url=$_POST['image_url'];
@@ -100,6 +104,8 @@
 
   }
 
+  $csrf_token = csrfGetToken();
+  
   showProfile($user);
 
   $admin_panel = <<<_ADMIN
@@ -108,6 +114,7 @@
                   <h3>Enter or edit your website's title.</h3>
                   <input type='text' name='settitle' value="$title" placeholder="Default Title"><br>
                   <input type='submit' value='Update Title'>
+                  <input type="hidden" name="token" value="$csrf_token">
                   </form>
 _ADMIN;
   
@@ -125,6 +132,7 @@ echo <<<_END
       Image File: <input type='file' name='image' size='14'>
       Image URL: <input type='text' name='image_url' placeholder="https://"></input>
       <input type='submit' value='Save Profile'>
+      <input type="hidden" name="token" value="$csrf_token">
       </form>
       <h3>BBCode Usage:</h3>
       <ul>

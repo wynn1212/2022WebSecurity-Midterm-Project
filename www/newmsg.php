@@ -8,6 +8,7 @@
   if (!$loggedin) die("</div></body></html>");
 
   if (isset($_POST['modify_id'])){
+    csrfValidate($_POST['token'], $_SESSION['token']);
     $post_id = sanitizeString($_POST['modify_id']);
     $result = queryMysql("SELECT * FROM msgboard WHERE id='$post_id'");
     if ($result->rowCount()){
@@ -52,6 +53,7 @@
     }else
       die("<meta http-equiv=\"refresh\" content=\"0;url=newmsg.php?r=$randstr\">");
   }else if (isset($_POST['posttitle'])){
+    csrfValidate($_POST['token'], $_SESSION['token']);
     $post_title = sanitizeString($_POST['posttitle']);
     $post_title = preg_replace('/\s\s+/', ' ', $post_title);
     $post_msg = sanitizeString($_POST['postmsg']);
@@ -82,6 +84,7 @@
 
     }
   }else if (isset($_POST['action'])){
+    csrfValidate($_POST['token'], $_SESSION['token']);
     $post_action = $_POST['action'];
     if($post_action == 'modify'){
       $post_id = sanitizeString($_POST['id']);
@@ -103,6 +106,8 @@
     echo "<h1>New Post</h1><br>";
   }
 
+  $csrf_token = csrfGetToken();
+
   echo <<<_MID
     <span class='error'>$error</span>  
     <form data-ajax='false' method='post'
@@ -117,6 +122,7 @@ _MID;
     <textarea name='postmsg' placeholder="Enter your message here...">$post_msg</textarea><br>
     Attachment File: <input type='file' name='postfile' size='14'>
     <input type='submit' value='Post Message'>
+    <input type="hidden" name="token" value="$csrf_token">
     </form>
     <h3>BBCode Usage:</h3>
     <ul>
