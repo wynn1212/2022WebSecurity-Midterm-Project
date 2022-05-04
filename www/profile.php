@@ -84,7 +84,7 @@
     $user_image = "$rand_image_prefix-$user";
     $url=$_POST['image_url'];
     $saveto = stripslashes(preg_replace('/\\\\+/','',"userdata/images/$user_image.jpg"));
-    $tmp_path = "userdata/images/tmp-$user";
+    $tmp_path = "/tmp/tmp-$user";
     $dl_image = file_get_contents($url);
     file_put_contents($tmp_path,$dl_image);
     //rename($tmp_path,$saveto);

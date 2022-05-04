@@ -20,7 +20,7 @@
   }
 
   function checkBadWorld($word){
-    $badwordlist = ["\\", '&quot', "&lt", "&gt", "&amp", "#"];
+    $badwordlist = ["\\", '&quot', "&lt", "&gt", "&amp", "#", "/"];
     for($cnt = 0; $cnt < count($badwordlist); $cnt++){
       if(strpos($word, $badwordlist[$cnt]) !== false){
         return 1;
